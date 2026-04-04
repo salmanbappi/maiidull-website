@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProductGrid from './components/ProductGrid';
-import ProductModal from './components/ProductModal';
+import ProductDetails from './components/ProductDetails';
 
 function App() {
-  const [selectedProduct, setSelectedProduct] = useState(null);
-
-  const handleCloseModal = () => {
-    setSelectedProduct(null);
-  };
-
-  return (
+  const HomePage = () => (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center">
-      {/* 60-30-10 Professional Header */}
       <header className="w-full bg-white py-8 border-b border-gray-100 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
@@ -20,7 +14,6 @@ function App() {
             </h1>
             <p className="text-gray-400 text-[10px] font-bold tracking-[0.2em] uppercase mt-1">Product Affiliate Hub</p>
           </div>
-          
           <div className="flex items-center gap-8 text-[11px] font-bold text-gray-500 uppercase tracking-widest">
             <a href="#" className="text-gray-900">Deals</a>
             <a href="#" className="hover:text-accent transition-colors">Categories</a>
@@ -35,16 +28,9 @@ function App() {
              Latest<br/><span className="text-accent">Reels</span>
            </h2>
         </div>
-        <ProductGrid onProductClick={setSelectedProduct} />
+        <ProductGrid />
       </main>
       
-      <ProductModal 
-        product={selectedProduct} 
-        isOpen={!!selectedProduct} 
-        onClose={handleCloseModal}
-      />
-      
-      {/* Minimal Footer */}
       <footer className="w-full py-16 bg-white border-t border-gray-100 text-center">
         <h2 className="text-xl font-black italic tracking-tighter text-gray-900">MAIIDULL<span className="text-accent">.</span></h2>
         <p className="text-gray-400 text-[10px] font-bold mt-4 uppercase tracking-[0.2em]">
@@ -52,6 +38,15 @@ function App() {
         </p>
       </footer>
     </div>
+  );
+
+  return (
+    <Router basename="/maiidull-website">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+      </Routes>
+    </Router>
   );
 }
 
