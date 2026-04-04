@@ -1,94 +1,60 @@
 import React from 'react';
-import { 
-  Card, 
-  CardMedia, 
-  CardContent, 
-  Typography, 
-  Button, 
-  Box, 
-  CardActionArea 
-} from '@mui/material';
-import { 
-  ShoppingCartOutlined as CartIcon,
-  ChevronRight as ArrowIcon 
-} from '@mui/icons-material';
+import { Card, CardMedia, CardContent, Typography, Button, Box, CardActionArea } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
   return (
-    <Card 
-      elevation={0}
-      sx={{ 
-        height: '100%', 
-        display: 'flex', 
-        flexDirection: 'column',
-        borderRadius: 5,
-        border: 1,
-        borderColor: 'divider',
-        bgcolor: 'background.paper',
-        transition: 'all 0.3s ease',
-        '&:hover': {
-          transform: 'translateY(-8px)',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-          borderColor: 'primary.main',
-        }
-      }}
-    >
+    <Card elevation={0} sx={{ 
+      height: '100%', 
+      display: 'flex', 
+      flexDirection: 'column',
+      borderRadius: 1, // REDUCED TO 8px (Material default theme 1 = 8px)
+      border: '1px solid',
+      borderColor: 'divider',
+      bgcolor: 'background.paper',
+      transition: 'transform 0.2s ease',
+      '&:hover': { transform: 'scale(1.02)' }
+    }}>
       <CardActionArea onClick={() => navigate(`/product/${product.id}`)}>
-        <Box sx={{ position: 'relative', pt: '100%', bgcolor: 'action.hover' }}>
+        <Box sx={{ position: 'relative', pt: '120%', bgcolor: 'action.hover' }}>
           <CardMedia
             component="img"
             image={product.imageUrl}
             alt={product.title}
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              p: 2
-            }}
+            sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', p: 1 }}
           />
         </Box>
       </CardActionArea>
       
-      <CardContent sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', gap: 2, p: 3 }}>
-        <Typography 
-          variant="subtitle1" 
-          sx={{ 
-            fontWeight: 800, 
-            lineHeight: 1.2,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            flexGrow: 1,
-            color: 'text.primary'
-          }}
-        >
+      <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', alignItems: 'center', gap: 3 }}>
+        <Typography variant="body2" sx={{ 
+          fontWeight: 900, 
+          lineHeight: 1.1,
+          flexGrow: 1,
+          color: 'text.primary',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical'
+        }}>
           {product.title}
         </Typography>
         
         <Button 
           variant="contained" 
           disableElevation
-          onClick={(e) => {
-            e.stopPropagation();
-            navigate(`/product/${product.id}`);
-          }}
-          endIcon={<ArrowIcon />}
+          onClick={(e) => { e.stopPropagation(); navigate(`/product/${product.id}`); }}
           sx={{ 
-            whiteSpace: 'nowrap',
-            minWidth: 'fit-content',
-            px: 3,
-            py: 1.5,
-            borderRadius: 3,
-            fontSize: '0.75rem',
-            letterSpacing: '0.05em'
+            bgcolor: 'accent.main', 
+            '&:hover': { bgcolor: 'accent.hover' },
+            fontSize: '0.65rem',
+            px: 2,
+            py: 1,
+            borderRadius: 1,
+            whiteSpace: 'nowrap'
           }}
         >
           Shop Now
