@@ -2,6 +2,11 @@
 
 A Facebook Reels-style product affiliate website for MAIIDULL.
 
+## 🔗 Live Site
+**Check it out here:** [https://salmanbappi.github.io/maiidull-website/](https://salmanbappi.github.io/maiidull-website/)
+
+---
+
 ## 🚀 Getting Started
 
 1.  **Clone the repository:**
@@ -33,17 +38,13 @@ To add a new reel/product, you just need to edit one file: `src/data/products.js
     }
     ```
 3.  Save the file.
-4.  The website will automatically update!
+4.  Commit and push the change! The **GitHub Action** will automatically rebuild and deploy the site.
 
-## 🌐 Deployment
+## 🌐 Automatic Deployment
 
-To deploy to GitHub Pages:
-```bash
-npm run deploy
-```
-The site will be available at: https://salmanbappi.github.io/maiidull-website/
+This repository is set up with **GitHub Actions**. Any changes pushed to the `main` branch will automatically be built and deployed to GitHub Pages.
 
 ## 🛠️ Built With
-- React (Vite)
-- Tailwind CSS
-- gh-pages
+- **React (Vite):** Modern, fast UI development.
+- **Tailwind CSS v4:** Utility-first styling with the latest features.
+- **GitHub Actions:** Automated CI/CD.
