@@ -41,7 +41,8 @@ const AdminDashboard = () => {
     title: '',
     imageUrl: '',
     affiliateUrl: '',
-    category: CATEGORIES[0]
+    category: CATEGORIES[0],
+    description: ''
   });
   const [fetchingMeta, setFetchingMeta] = useState(false);
 
@@ -163,7 +164,7 @@ const AdminDashboard = () => {
       await commitToGithub(updatedContent, `Admin: Add new product - ${newProduct.title.substring(0, 30)}...`);
 
       setStatus({ type: 'success', message: 'Product published successfully!' });
-      setProductData({ title: '', imageUrl: '', affiliateUrl: '', category: CATEGORIES[0] });
+      setProductData({ title: '', imageUrl: '', affiliateUrl: '', category: CATEGORIES[0], description: '' });
       fetchExistingProducts();
     } catch (error) {
       setStatus({ type: 'error', message: error.message });
@@ -271,6 +272,18 @@ const AdminDashboard = () => {
                     placeholder="e.g. Trendy Summer T-Shirt"
                     value={productData.title}
                     onChange={(e) => setProductData({...productData, title: e.target.value})}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField 
+                    fullWidth 
+                    multiline
+                    rows={4}
+                    label="Product Description / Specifications" 
+                    placeholder="e.g. Size 5-12 years. Material: 100% Cotton. Breathable streetwear style..."
+                    value={productData.description}
+                    onChange={(e) => setProductData({...productData, description: e.target.value})}
                     required
                   />
                 </Grid>

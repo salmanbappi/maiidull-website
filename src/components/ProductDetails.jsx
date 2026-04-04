@@ -51,41 +51,14 @@ const ProductDetails = ({ products }) => {
   }, [products, product]);
 
   useEffect(() => {
-    if (product) {
-      setDetails({ description: '', loading: true });
-      fetch(`https://corsproxy.io/?url=${encodeURIComponent(product.affiliateUrl)}`)
-        .then(response => response.ok ? response.text() : Promise.reject())
-        .then(htmlText => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(htmlText, 'text/html');
-          
-          let metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || 
-                         doc.querySelector('meta[property="og:description"]')?.getAttribute('content');
-                         
-          if (metaDesc && (metaDesc.includes('Smarter Shopping') || metaDesc.length < 15)) {
-             metaDesc = null; // Force fallback
-          }
-
-          if (metaDesc && metaDesc.includes('AliExpress')) {
-             metaDesc = metaDesc.replace(/AliExpress/ig, 'MAIIDULL');
-          }
-          
-          setDetails({
-            description: metaDesc ? metaDesc : `Discover the ${product.title}. A premium selection verified for quality, durability, and style. Ideal for your daily needs and backed by secure global shipping. Visit the store to view full specifications, customer reviews, and available variants.`,
-            loading: false
-          });
-        })
-        .catch(() => {
-          setDetails({
-            description: `Discover the ${product.title}. A premium selection verified for quality, durability, and style. Ideal for your daily needs and backed by secure global shipping. Visit the store to view full specifications, customer reviews, and available variants.`,
-            loading: false
-          });
-        });
-    }
     window.scrollTo(0, 0);
   }, [product]);
 
   if (!product) return null;
+
+  // Use admin-provided description or fallback
+  const displayDescription = product.description || `Discover the ${product.title}. A premium selection verified for quality, durability, and style. Ideal for your daily needs and backed by secure global shipping. Visit the store to view full specifications, customer reviews, and available variants.`;
+
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
@@ -182,42 +155,39 @@ const ProductDetails = ({ products }) => {
                 <Typography variant="overline" sx={{ fontWeight: 900, color: 'text.disabled', letterSpacing: '0.2em' }}>
                   Specifications
                 </Typography>
-                {details.loading ? (
-                  <Box sx={{ mt: 2 }}><Skeleton height={20} width="100%" /><Skeleton height={20} width="80%" /></Box>
-                ) : (
-                  <Box sx={{ position: 'relative', mt: 2 }}>
-                    <Box sx={{ 
-                      maxHeight: expanded ? '1000px' : '60px', 
-                      overflow: 'hidden', 
-                      transition: 'max-height 0.5s ease-in-out' 
-                    }}>
-                      <Typography variant="body1" sx={{ fontSize: '1.1rem', color: 'text.primary', lineHeight: 1.6, fontWeight: 500 }}>
-                        {details.description}
-                      </Typography>
-                    </Box>
-                    {!expanded && details.description.length > 80 && (
-                      <Box sx={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: '40px',
-                        background: (theme) => `linear-gradient(transparent, ${theme.palette.background.default})`
-                      }} />
-                    )}                    {details.description.length > 80 && (
-                      <Button 
-                        size="small" 
-                        onClick={() => setExpanded(!expanded)} 
-                        endIcon={<ExpandIcon sx={{ transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }}/>}
-                        sx={{ mt: 1, p: 0, fontWeight: 900, fontSize: '0.75rem', '&:hover': { bgcolor: 'transparent', color: 'accent.main' } }}
-                        disableRipple
-                      >
-                        {expanded ? 'Read Less' : 'Read More'}
-                      </Button>
-                    )}
+                <Box sx={{ position: 'relative', mt: 2 }}>
+                  <Box sx={{ 
+                    maxHeight: expanded ? '1000px' : '60px', 
+                    overflow: 'hidden', 
+                    transition: 'max-height 0.5s ease-in-out' 
+                  }}>
+                    <Typography variant="body1" sx={{ fontSize: '1.1rem', color: 'text.primary', lineHeight: 1.6, fontWeight: 500 }}>
+                      {displayDescription}
+                    </Typography>
                   </Box>
-                )}
-              </Box>
+                  {!expanded && displayDescription.length > 80 && (
+                    <Box sx={{ 
+                      position: 'absolute', 
+                      bottom: 0, 
+                      left: 0, 
+                      right: 0, 
+                      height: '40px', 
+                      background: (theme) => `linear-gradient(transparent, ${theme.palette.background.default})` 
+                    }} />
+                  )}
+                  {displayDescription.length > 80 && (
+                    <Button 
+                      size="small" 
+                      onClick={() => setExpanded(!expanded)} 
+                      endIcon={<ExpandIcon sx={{ transform: expanded ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }}/>}
+                      sx={{ mt: 1, p: 0, fontWeight: 900, fontSize: '0.75rem', '&:hover': { bgcolor: 'transparent', color: 'accent.main' } }}
+                      disableRipple
+                    >
+                      {expanded ? 'Read Less' : 'Read More'}
+                    </Button>
+                  )}
+                </Box>
+                </Box>
 
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <Accordion elevation={0} square sx={{ borderTop: '1px solid', borderColor: 'divider' }}>
