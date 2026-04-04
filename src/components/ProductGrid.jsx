@@ -1,9 +1,13 @@
 import React, { useState, useMemo } from 'react';
-import { Grid, Box, Typography, Chip } from '@mui/material';
+import { Grid, Box, Typography, Chip, Button } from '@mui/material';
+import { KeyboardArrowDown as ArrowDownIcon } from '@mui/icons-material';
 import ProductCard from './ProductCard';
+
+const ITEMS_PER_PAGE = 6;
 
 const ProductGrid = ({ products }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
   // Extract unique categories
   const categories = useMemo(() => {
@@ -17,6 +21,16 @@ const ProductGrid = ({ products }) => {
     if (selectedCategory === 'All') return products;
     return products.filter(p => p.category === selectedCategory);
   }, [products, selectedCategory]);
+
+  // Reset pagination when category changes
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setVisibleCount(ITEMS_PER_PAGE);
+  };
+
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + ITEMS_PER_PAGE);
+  };
 
   if (!products || products.length === 0) {
     return (
@@ -35,6 +49,10 @@ const ProductGrid = ({ products }) => {
     );
   }
 
+  // Get only the items we should currently show
+  const visibleProducts = filteredProducts.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredProducts.length;
+
   return (
     <Box>
       {/* Filter Bar */}
@@ -43,7 +61,7 @@ const ProductGrid = ({ products }) => {
           <Chip 
             key={category}
             label={category}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => handleCategoryChange(category)}
             color={selectedCategory === category ? 'primary' : 'default'}
             variant={selectedCategory === category ? 'filled' : 'outlined'}
             sx={{ 
@@ -65,7 +83,7 @@ const ProductGrid = ({ products }) => {
 
       {/* Grid */}
       <Grid container spacing={4}>
-        {filteredProducts.map((product) => (
+        {visibleProducts.map((product) => (
           <Grid item key={product.id} xs={12} sm={6} md={4}>
             <ProductCard product={product} />
           </Grid>
@@ -77,6 +95,28 @@ const ProductGrid = ({ products }) => {
           <Typography variant="body1" color="text.secondary" sx={{ fontWeight: 700 }}>
             No products found in this category.
           </Typography>
+        </Box>
+      )}
+
+      {/* Pagination / Load More */}
+      {hasMore && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+          <Button 
+            variant="outlined" 
+            size="large"
+            onClick={handleLoadMore}
+            endIcon={<ArrowDownIcon />}
+            sx={{ 
+              fontWeight: 800, 
+              borderWidth: 2, 
+              px: 6,
+              py: 1.5,
+              borderRadius: 8,
+              '&:hover': { borderWidth: 2 }
+            }}
+          >
+            Load More Reels
+          </Button>
         </Box>
       )}
     </Box>
