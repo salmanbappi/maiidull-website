@@ -1,24 +1,33 @@
 import React from 'react';
+import { Grid, Box, Typography } from '@mui/material';
 import ProductCard from './ProductCard';
 
 const ProductGrid = ({ products }) => {
   if (!products || products.length === 0) {
     return (
-      <div className="text-center py-20 bg-[var(--bg-secondary)] rounded-3xl border border-dashed border-[var(--border-color)]">
-        <p className="text-[var(--text-muted)] font-bold uppercase tracking-widest text-[10px]">No Products Synced Yet</p>
-      </div>
+      <Box sx={{ 
+        textAlign: 'center', 
+        py: 15, 
+        bgcolor: 'background.paper', 
+        borderRadius: 8,
+        border: '3px dashed',
+        borderColor: 'divider'
+      }}>
+        <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+          NO REELS SYNCED
+        </Typography>
+      </Box>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+    <Grid container spacing={4}>
       {products.map((product) => (
-        <ProductCard 
-          key={product.id} 
-          product={product} 
-        />
+        <Grid item key={product.id} xs={12} sm={6} md={4}>
+          <ProductCard product={product} />
+        </Grid>
       ))}
-    </div>
+    </Grid>
   );
 };
 
