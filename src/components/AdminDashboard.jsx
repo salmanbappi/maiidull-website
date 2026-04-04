@@ -25,6 +25,39 @@ const AdminDashboard = () => {
     affiliateUrl: '',
     category: CATEGORIES[0]
   });
+  const [fetchingMeta, setFetchingMeta] = useState(false);
+
+  const fetchMetadata = async () => {
+    if (!productData.affiliateUrl) return;
+    setFetchingMeta(true);
+    setStatus({ type: 'info', message: 'Fetching product details from link...' });
+    
+    try {
+      const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(productData.affiliateUrl)}`);
+      if (!response.ok) throw new Error('Failed to fetch data.');
+      const data = await response.json();
+      
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(data.contents, 'text/html');
+      
+      const title = doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || 
+                    doc.querySelector('title')?.innerText || '';
+                    
+      const image = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+
+      setProductData(prev => ({
+        ...prev,
+        title: prev.title || title,
+        imageUrl: prev.imageUrl || image
+      }));
+      
+      setStatus({ type: 'success', message: 'Auto-filled details successfully!' });
+    } catch (err) {
+      setStatus({ type: 'warning', message: 'Could not auto-fetch details. Please enter manually.' });
+    } finally {
+      setFetchingMeta(false);
+    }
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -171,14 +204,24 @@ const AdminDashboard = () => {
               />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField 
-                fullWidth 
-                label="AliExpress Affiliate Link" 
-                placeholder="https://s.click.aliexpress.com/e/..."
-                value={productData.affiliateUrl}
-                onChange={(e) => setProductData({...productData, affiliateUrl: e.target.value})}
-                required
-              />
+              <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+                <TextField 
+                  fullWidth 
+                  label="AliExpress Affiliate Link" 
+                  placeholder="https://s.click.aliexpress.com/e/..."
+                  value={productData.affiliateUrl}
+                  onChange={(e) => setProductData({...productData, affiliateUrl: e.target.value})}
+                  required
+                />
+                <Button 
+                  variant="outlined" 
+                  onClick={fetchMetadata}
+                  disabled={fetchingMeta || !productData.affiliateUrl}
+                  sx={{ height: 56, whiteSpace: 'nowrap', fontWeight: 800 }}
+                >
+                  {fetchingMeta ? <CircularProgress size={24} /> : 'Auto Fetch'}
+                </Button>
+              </Box>
             </Grid>
             <Grid item xs={12}>
               <TextField 
