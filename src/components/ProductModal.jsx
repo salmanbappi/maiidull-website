@@ -6,7 +6,6 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen && product) {
       setDetails({ description: '', loading: true });
-      
       fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(product.affiliateUrl)}`)
         .then(response => response.ok ? response.json() : Promise.reject())
         .then(data => {
@@ -14,9 +13,8 @@ const ProductModal = ({ product, isOpen, onClose }) => {
           const doc = parser.parseFromString(data.contents, 'text/html');
           const metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || 
                            doc.querySelector('meta[property="og:description"]')?.getAttribute('content');
-          
           setDetails({
-            description: metaDesc ? metaDesc.split('.')[0] + '.' : "Visit AliExpress for full product specifications, reviews, and exclusive daily discounts.",
+            description: metaDesc ? metaDesc.split('.')[0] + '.' : "Premium product from AliExpress. High durability and modern design. Click 'Shop Now' for full details.",
             loading: false
           });
         })
@@ -32,76 +30,60 @@ const ProductModal = ({ product, isOpen, onClose }) => {
   if (!isOpen || !product) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-secondary/80 backdrop-blur-md transition-all duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/60 backdrop-blur-sm transition-opacity" onClick={onClose}>
       <div 
-        className="bg-base w-full max-w-4xl max-h-[90vh] rounded-[2.5rem] overflow-hidden shadow-2xl relative flex flex-col md:flex-row border border-slate-200/50"
+        className="bg-white w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl relative flex flex-col md:flex-row max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <button 
-          onClick={onClose}
-          className="absolute top-6 right-6 bg-white shadow-xl hover:bg-slate-50 p-2.5 rounded-2xl z-20 transition-all border border-slate-100"
-        >
-          <svg className="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button onClick={onClose} className="absolute top-4 right-4 bg-gray-100 hover:bg-gray-200 p-2 rounded-full z-10 transition-colors">
+          <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        {/* 1. Dynamic Media Section (60% Area) */}
-        <div className="w-full md:w-3/5 bg-slate-50 flex items-center justify-center overflow-y-auto">
+        {/* 60% Image Section */}
+        <div className="w-full md:w-3/5 bg-gray-50 flex items-center justify-center overflow-y-auto">
           <img 
             src={product.imageUrl} 
             alt={product.title}
             referrerPolicy="no-referrer"
-            className="w-full h-auto block object-contain max-h-[80vh] md:max-h-none p-4"
+            className="w-full h-auto max-h-full object-contain p-4 md:p-12"
           />
         </div>
 
-        {/* 2. Info Section (30% Slate logic + 10% Accent) */}
-        <div className="w-full md:w-2/5 p-8 flex flex-col justify-between bg-white overflow-y-auto border-l border-slate-100">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="bg-accent/10 text-accent text-[9px] font-black px-2 py-1 rounded uppercase tracking-[0.1em]">Daily Deal</span>
-              <span className="text-slate-300 text-[10px] font-bold">#ID-{product.id}</span>
-            </div>
-            
-            <h2 className="text-2xl font-black text-secondary leading-[1.1] mb-6 tracking-tight italic uppercase">
+        {/* 30% Info Section / 10% CTA Focus */}
+        <div className="w-full md:w-2/5 p-8 md:p-10 flex flex-col justify-between bg-white border-l border-gray-100 overflow-y-auto">
+          <div className="space-y-6">
+            <span className="text-xs font-bold text-accent uppercase tracking-widest block">Available on AliExpress</span>
+            <h2 className="text-2xl font-bold text-gray-900 leading-tight">
               {product.title}
             </h2>
             
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-1.5 h-10 bg-accent rounded-full" />
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Source</span>
-                  <span className="text-sm font-black text-secondary uppercase italic">AliExpress Mall</span>
-                </div>
-              </div>
-              
-              <div className="p-6 bg-slate-50 rounded-3xl border border-slate-100">
-                <p className="text-slate-600 text-sm leading-relaxed font-medium">
-                  {details.loading ? (
-                    <span className="flex items-center gap-2 text-slate-300 italic animate-pulse">
-                      Analyzing listing data...
-                    </span>
-                  ) : details.description}
-                </p>
-              </div>
+            <div className="h-px bg-gray-100 w-full" />
+            
+            <div className="space-y-4">
+               <h4 className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Product Details</h4>
+               <p className="text-gray-600 text-sm leading-relaxed">
+                {details.loading ? (
+                  <span className="animate-pulse text-gray-300 italic">Fetching product specifications...</span>
+                ) : details.description}
+              </p>
             </div>
           </div>
 
-          <div className="mt-10">
+          <div className="mt-12 space-y-4">
             <a 
               href={product.affiliateUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full bg-accent hover:bg-blue-600 text-white font-black py-5 rounded-3xl flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02] shadow-2xl shadow-accent/20"
+              className="w-full bg-accent hover:bg-blue-700 text-white font-bold py-5 rounded-xl flex items-center justify-center gap-3 transition-transform active:scale-[0.98] shadow-lg shadow-blue-600/20"
             >
-              SHOP ON ALIEXPRESS
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              Shop Now
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
-            <p className="text-center text-[9px] text-slate-300 mt-4 font-black uppercase tracking-[0.2em] italic">Official Affiliate Partner</p>
+            <p className="text-center text-[10px] text-gray-400 font-medium">Clicking opens AliExpress in a new tab</p>
           </div>
         </div>
       </div>
