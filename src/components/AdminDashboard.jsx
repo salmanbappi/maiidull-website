@@ -18,7 +18,7 @@ import {
   Avatar,
   IconButton
 } from '@mui/material';
-import { DeleteOutline as DeleteIcon, Refresh as RefreshIcon } from '@mui/icons-material';
+import { DeleteOutline as DeleteIcon, Refresh as RefreshIcon, CloudUpload as UploadIcon } from '@mui/icons-material';
 
 const CATEGORIES = ["Kids Fashion", "Tech Gadgets", "Footwear", "Accessories", "Home & Garden"];
 const GITHUB_REPO = 'salmanbappi/maiidull-website';
@@ -102,6 +102,57 @@ const AdminDashboard = () => {
     } finally {
       setFetchingMeta(false);
     }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setStatus({ type: 'error', message: 'Image must be under 5MB.' });
+      return;
+    }
+
+    setLoading(true);
+    setStatus({ type: 'info', message: 'Uploading image securely...' });
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = async () => {
+      const base64data = reader.result.split(',')[1];
+      const extension = file.name.split('.').pop() || 'jpg';
+      const fileName = `img_${Date.now()}.${extension}`;
+      const imgPath = `public/uploads/${fileName}`;
+      const uploadUrl = `https://api.github.com/repos/${GITHUB_REPO}/contents/${imgPath}`;
+
+      try {
+        const token = getAuthToken();
+        const uploadRes = await fetch(uploadUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Admin: Upload image ${fileName}`,
+            content: base64data,
+            branch: 'master'
+          })
+        });
+
+        if (!uploadRes.ok) throw new Error('Failed to upload image to GitHub.');
+
+        const finalImageUrl = `https://raw.githubusercontent.com/${GITHUB_REPO}/master/${imgPath}`;
+
+        setProductData(prev => ({ ...prev, imageUrl: finalImageUrl }));
+        setStatus({ type: 'success', message: 'Image uploaded successfully!' });
+      } catch (error) {
+        setStatus({ type: 'error', message: error.message });
+      } finally {
+        setLoading(false);
+      }
+    };
   };
 
   const handleLogin = (e) => {
@@ -288,14 +339,31 @@ const AdminDashboard = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField 
-                    fullWidth 
-                    label="AliExpress Image URL (.jpg/.png)" 
-                    placeholder="https://ae01.alicdn.com/kf/..."
-                    value={productData.imageUrl}
-                    onChange={(e) => setProductData({...productData, imageUrl: e.target.value})}
-                    required
-                  />
+                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
+                    <TextField 
+                      fullWidth 
+                      label="Image URL (AliExpress or Uploaded)" 
+                      placeholder="https://..."
+                      value={productData.imageUrl}
+                      onChange={(e) => setProductData({...productData, imageUrl: e.target.value})}
+                      required
+                    />
+                    <Button
+                      variant="outlined"
+                      component="label"
+                      disabled={loading}
+                      sx={{ height: 56, whiteSpace: 'nowrap', fontWeight: 800 }}
+                      startIcon={<UploadIcon />}
+                    >
+                      Local
+                      <input
+                        type="file"
+                        hidden
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                      />
+                    </Button>
+                  </Box>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField 
