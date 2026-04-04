@@ -10,10 +10,11 @@ const ProductCard = ({ product }) => {
       height: '100%', 
       display: 'flex', 
       flexDirection: 'column',
-      borderRadius: 1, // REDUCED TO 8px (Material default theme 1 = 8px)
+      borderRadius: 2, 
       border: '1px solid',
       borderColor: 'divider',
       bgcolor: 'background.paper',
+      overflow: 'hidden',
       transition: 'transform 0.2s ease',
       '&:hover': { transform: 'scale(1.02)' }
     }}>

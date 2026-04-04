@@ -18,7 +18,9 @@ import {
   Skeleton,
   Breadcrumbs,
   Link as MuiLink,
-  CircularProgress
+  CircularProgress,
+  useMediaQuery,
+  useTheme
 } from '@mui/material';
 import { 
   ArrowBack as BackIcon,
@@ -37,6 +39,9 @@ const ProductDetails = ({ products }) => {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   const product = useMemo(() => products?.find(p => String(p.id) === String(id)), [products, id]);
 
   // Find 3 related products (same category or random)
@@ -261,13 +266,23 @@ const ProductDetails = ({ products }) => {
             <Typography variant="h4" sx={{ fontWeight: 900, mb: 6, letterSpacing: '-0.02em', textTransform: 'uppercase', fontStyle: 'italic' }}>
               More Like <Typography component="span" variant="inherit" color="primary">This</Typography>
             </Typography>
-            <Grid container spacing={4}>
-              {relatedProducts.map(relProduct => (
-                <Grid item xs={12} sm={6} md={4} key={relProduct.id}>
-                  <ProductCard product={relProduct} />
-                </Grid>
-              ))}
-            </Grid>
+            {isMobile ? (
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {relatedProducts.map(relProduct => (
+                  <Box key={relProduct.id} sx={{ width: '100%' }}>
+                    <ProductCard product={relProduct} />
+                  </Box>
+                ))}
+              </Box>
+            ) : (
+              <Grid container spacing={4}>
+                {relatedProducts.map(relProduct => (
+                  <Grid item xs={12} sm={6} md={4} key={relProduct.id}>
+                    <ProductCard product={relProduct} />
+                  </Grid>
+                ))}
+              </Grid>
+            )}
           </Box>
         )}
       </Container>
