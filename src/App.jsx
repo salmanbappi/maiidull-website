@@ -21,6 +21,7 @@ import {
 } from '@mui/icons-material';
 import ProductGrid from './components/ProductGrid';
 import ProductDetails from './components/ProductDetails';
+import AdminDashboard from './components/AdminDashboard';
 
 const GITHUB_JSON_URL = "https://raw.githubusercontent.com/salmanbappi/maiidull-website/master/src/data/products.json";
 
@@ -126,6 +127,7 @@ function App() {
                 </Container>
               } />
               <Route path="/product/:id" element={<ProductDetails products={products} />} />
+              <Route path="/admin" element={<AdminDashboard />} />
             </Routes>
           </Box>
 

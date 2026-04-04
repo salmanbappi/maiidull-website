@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Grid, Box, Typography, Chip, Button } from '@mui/material';
+import { Grid, Box, Typography, Chip, Button, useMediaQuery, useTheme } from '@mui/material';
 import { KeyboardArrowDown as ArrowDownIcon } from '@mui/icons-material';
 import ProductCard from './ProductCard';
 
@@ -8,6 +8,9 @@ const ITEMS_PER_PAGE = 6;
 const ProductGrid = ({ products }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Extract unique categories
   const categories = useMemo(() => {
@@ -81,14 +84,28 @@ const ProductGrid = ({ products }) => {
         ))}
       </Box>
 
-      {/* Grid */}
-      <Grid container spacing={4}>
-        {visibleProducts.map((product) => (
-          <Grid item key={product.id} xs={12} sm={6} md={4}>
-            <ProductCard product={product} />
-          </Grid>
-        ))}
-      </Grid>
+      {/* Grid or Mobile Swipe Feed */}
+      {isMobile ? (
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: 6 
+        }}>
+          {visibleProducts.map((product) => (
+            <Box key={product.id} sx={{ width: '100%' }}>
+              <ProductCard product={product} />
+            </Box>
+          ))}
+        </Box>
+      ) : (
+        <Grid container spacing={4}>
+          {visibleProducts.map((product) => (
+            <Grid item key={product.id} xs={12} sm={6} md={4}>
+              <ProductCard product={product} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
       
       {filteredProducts.length === 0 && (
         <Box sx={{ textAlign: 'center', py: 10 }}>

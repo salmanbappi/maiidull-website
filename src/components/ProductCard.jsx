@@ -50,7 +50,12 @@ const ProductCard = ({ product }) => {
           <Button 
             variant="contained" 
             disableElevation
-            onClick={(e) => { e.stopPropagation(); navigate(`/product/${product.id}`); }}
+            onClick={(e) => { 
+              e.stopPropagation(); 
+              // Analytics Tracking Event
+              console.log('Analytics Event: Clicked Check Price', { productId: product.id, title: product.title });
+              navigate(`/product/${product.id}`); 
+            }}
             sx={{ 
               bgcolor: 'accent.main', 
               '&:hover': { bgcolor: 'accent.hover' },
