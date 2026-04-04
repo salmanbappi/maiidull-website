@@ -8,7 +8,8 @@ import {
   Paper, 
   Alert,
   CircularProgress,
-  MenuItem
+  MenuItem,
+  Grid
 } from '@mui/material';
 
 const CATEGORIES = ["Kids Fashion", "Tech Gadgets", "Footwear", "Accessories", "Home & Garden"];
