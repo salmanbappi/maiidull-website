@@ -300,11 +300,10 @@ const AdminDashboard = () => {
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
                     <TextField 
                       fullWidth 
-                      label="AliExpress Affiliate Link" 
+                      label="AliExpress Affiliate Link (Optional)" 
                       placeholder="https://s.click.aliexpress.com/e/..."
                       value={productData.affiliateUrl}
                       onChange={(e) => setProductData({...productData, affiliateUrl: e.target.value})}
-                      required
                     />
                     <Button 
                       variant="outlined" 
