@@ -110,7 +110,7 @@ const ProductDetails = ({ products }) => {
                   objectFit: 'contain'
                 }}
               />
-            </Paper>
+            </Box>
           </Grid>
 
           {/* 40% Content Section */}
