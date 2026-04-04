@@ -17,7 +17,8 @@ import {
   Brightness4 as DarkIcon, 
   Brightness7 as LightIcon,
   Facebook as FBIcon,
-  ShoppingBag as BagIcon
+  ShoppingBag as BagIcon,
+  Settings as SettingsIcon
 } from '@mui/icons-material';
 import ProductGrid from './components/ProductGrid';
 import ProductDetails from './components/ProductDetails';
@@ -131,13 +132,22 @@ function App() {
             </Routes>
           </Box>
 
-          <Box component="footer" sx={{ py: 10, mt: 'auto', borderTop: '1px solid', borderColor: 'divider', textAlign: 'center' }}>
+          <Box component="footer" sx={{ py: 10, mt: 'auto', borderTop: '1px solid', borderColor: 'divider', textAlign: 'center', position: 'relative' }}>
             <Typography variant="h6" sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
               MAIIDULL<Typography component="span" color="primary" variant="inherit">.</Typography>
             </Typography>
             <Typography variant="caption" sx={{ display: 'block', mt: 2, fontWeight: 900, color: 'text.disabled', letterSpacing: '0.2em' }}>
               &copy; {new Date().getFullYear()} AFFILIATE HUB
             </Typography>
+            <IconButton 
+              component={Link} 
+              to="/admin" 
+              sx={{ position: 'absolute', bottom: 16, right: 16, color: 'text.disabled', opacity: 0.5, '&:hover': { opacity: 1, color: 'primary.main' } }}
+              size="small"
+              aria-label="Admin Dashboard"
+            >
+              <SettingsIcon fontSize="inherit" />
+            </IconButton>
           </Box>
         </Box>
       </Router>
