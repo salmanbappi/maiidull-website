@@ -28,6 +28,7 @@ import {
   Launch as LaunchIcon
 } from '@mui/icons-material';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import ProductCard from './ProductCard';
 
 const ProductDetails = ({ products }) => {
@@ -77,6 +78,10 @@ const ProductDetails = ({ products }) => {
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
+      <Helmet>
+        <title>{product.title} - MAIIDULL</title>
+        <meta name="description" content="Shop this verified deal on MAIIDULL. High-quality product shipped via AliExpress." />
+      </Helmet>
       <Container maxWidth="xl">
         {/* Modern Minimal Back Link */}
         <Box sx={{ mb: 6 }}>
