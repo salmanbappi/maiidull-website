@@ -28,10 +28,10 @@ const ProductCard = ({ product }) => {
         </Box>
       </CardActionArea>
       
-      <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', alignItems: 'center', gap: 3 }}>
+      <CardContent sx={{ p: 2, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Typography variant="body2" sx={{ 
           fontWeight: 900, 
-          lineHeight: 1.1,
+          lineHeight: 1.2,
           flexGrow: 1,
           color: 'text.primary',
           overflow: 'hidden',
@@ -43,22 +43,27 @@ const ProductCard = ({ product }) => {
           {product.title}
         </Typography>
         
-        <Button 
-          variant="contained" 
-          disableElevation
-          onClick={(e) => { e.stopPropagation(); navigate(`/product/${product.id}`); }}
-          sx={{ 
-            bgcolor: 'accent.main', 
-            '&:hover': { bgcolor: 'accent.hover' },
-            fontSize: '0.65rem',
-            px: 2,
-            py: 1,
-            borderRadius: 1,
-            whiteSpace: 'nowrap'
-          }}
-        >
-          Shop Now
-        </Button>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+          <Typography variant="caption" sx={{ color: 'error.main', fontWeight: 800, fontSize: '0.65rem', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <span role="img" aria-label="fire">🔥</span> In Demand
+          </Typography>
+          <Button 
+            variant="contained" 
+            disableElevation
+            onClick={(e) => { e.stopPropagation(); navigate(`/product/${product.id}`); }}
+            sx={{ 
+              bgcolor: 'accent.main', 
+              '&:hover': { bgcolor: 'accent.hover' },
+              fontSize: '0.65rem',
+              px: 2,
+              py: 1,
+              borderRadius: 1,
+              whiteSpace: 'nowrap'
+            }}
+          >
+            Check Price
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );

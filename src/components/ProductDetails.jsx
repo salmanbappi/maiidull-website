@@ -205,6 +205,12 @@ const ProductDetails = ({ products }) => {
               </Box>
 
               <Box sx={{ mt: 'auto', pt: 6 }}>
+                <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, bgcolor: 'error.main', color: 'error.contrastText', py: 1, borderRadius: 1 }}>
+                  <span role="img" aria-label="fire">🔥</span>
+                  <Typography variant="caption" sx={{ fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                    High Demand: Check AliExpress for remaining stock
+                  </Typography>
+                </Box>
                 <Button 
                   fullWidth 
                   variant="contained" 
@@ -214,13 +220,13 @@ const ProductDetails = ({ products }) => {
                   target="_blank"
                   endIcon={<LaunchIcon />}
                   sx={{ 
-                    py: 4, 
-                    fontSize: '1.5rem', 
+                    py: 3, 
+                    fontSize: '1.25rem', 
                     bgcolor: 'accent.main',
                     '&:hover': { bgcolor: 'accent.hover' }
                   }}
                 >
-                  Shop Now
+                  Check Current Deal Price
                 </Button>
                 <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', mt: 3, fontWeight: 900, color: 'text.disabled', letterSpacing: '0.1em' }}>
                   SECURE REDIRECT TO MERCHANT
