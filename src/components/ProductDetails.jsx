@@ -186,16 +186,15 @@ const ProductDetails = ({ products }) => {
                       </Typography>
                     </Box>
                     {!expanded && details.description.length > 80 && (
-                      <Box sx={{ 
-                        position: 'absolute', 
-                        bottom: 0, 
-                        left: 0, 
-                        right: 0, 
-                        height: '40px', 
-                        background: 'linear-gradient(transparent, var(--bg-base))' 
+                      <Box sx={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: '40px',
+                        background: (theme) => `linear-gradient(transparent, ${theme.palette.background.default})`
                       }} />
-                    )}
-                    {details.description.length > 80 && (
+                    )}                    {details.description.length > 80 && (
                       <Button 
                         size="small" 
                         onClick={() => setExpanded(!expanded)} 
