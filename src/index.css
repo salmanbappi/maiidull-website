@@ -10,7 +10,7 @@
   font-weight: 400;
   color-scheme: light dark;
   color: #213547;
-  background-color: #f0f2f5;
+  background-color: #f8fafc;
 }
 
 body {
@@ -18,3 +18,28 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+/* Custom Animations for luxury feel */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-in {
+  animation-duration: 400ms;
+  animation-fill-mode: both;
+}
+
+.fade-in { animation-name: fadeIn; }
+.slide-in-from-bottom-4 { animation-name: slideInUp; }
+.zoom-in-95 { animation-name: zoomIn; }
