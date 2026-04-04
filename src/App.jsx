@@ -67,7 +67,7 @@ function App() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(GITHUB_JSON_URL)
+    fetch(`${GITHUB_JSON_URL}?t=${Date.now()}`)
       .then(res => res.json())
       .then(data => {
         setProducts(data);
