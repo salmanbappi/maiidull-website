@@ -7,6 +7,7 @@ const ProductCard = ({ product }) => {
         <img 
           src={product.imageUrl} 
           alt={product.title}
+          referrerPolicy="no-referrer"
           className="absolute inset-0 w-full h-full object-cover"
           onError={(e) => {
             e.target.src = 'https://via.placeholder.com/360x640?text=Product+Image';
