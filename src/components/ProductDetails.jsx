@@ -28,6 +28,7 @@ import {
   Launch as LaunchIcon
 } from '@mui/icons-material';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import ProductCard from './ProductCard';
 
 const ProductDetails = ({ products }) => {
   const { id } = useParams();
@@ -35,6 +36,17 @@ const ProductDetails = ({ products }) => {
   const [details, setDetails] = useState({ description: '', loading: true });
   
   const product = products?.find(p => p.id === parseInt(id));
+
+  // Find 3 related products (same category or random)
+  const relatedProducts = React.useMemo(() => {
+    if (!products || !product) return [];
+    let related = products.filter(p => p.id !== product.id && p.category === product.category);
+    if (related.length < 3) {
+      const others = products.filter(p => p.id !== product.id && p.category !== product.category);
+      related = [...related, ...others];
+    }
+    return related.slice(0, 3);
+  }, [products, product]);
 
   useEffect(() => {
     if (product) {
@@ -212,6 +224,22 @@ const ProductDetails = ({ products }) => {
             </Box>
           </Grid>
         </Grid>
+
+        {/* Related Products Section */}
+        {relatedProducts.length > 0 && (
+          <Box sx={{ mt: 15, pt: 8, borderTop: '1px solid', borderColor: 'divider' }}>
+            <Typography variant="h4" sx={{ fontWeight: 900, mb: 6, letterSpacing: '-0.02em', textTransform: 'uppercase', fontStyle: 'italic' }}>
+              More Like <Typography component="span" variant="inherit" color="primary">This</Typography>
+            </Typography>
+            <Grid container spacing={4}>
+              {relatedProducts.map(relProduct => (
+                <Grid item xs={12} sm={6} md={4} key={relProduct.id}>
+                  <ProductCard product={relProduct} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        )}
       </Container>
     </Box>
   );
