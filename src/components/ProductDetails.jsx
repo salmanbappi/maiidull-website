@@ -53,21 +53,27 @@ const ProductDetails = ({ products }) => {
   useEffect(() => {
     if (product) {
       setDetails({ description: '', loading: true });
-      fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(product.affiliateUrl)}`)
-        .then(response => response.ok ? response.json() : Promise.reject())
-        .then(data => {
+      fetch(`https://corsproxy.io/?url=${encodeURIComponent(product.affiliateUrl)}`)
+        .then(response => response.ok ? response.text() : Promise.reject())
+        .then(htmlText => {
           const parser = new DOMParser();
-          const doc = parser.parseFromString(data.contents, 'text/html');
-          const metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || 
-                           doc.querySelector('meta[property="og:description"]')?.getAttribute('content');
+          const doc = parser.parseFromString(htmlText, 'text/html');
+          
+          let metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || 
+                         doc.querySelector('meta[property="og:description"]')?.getAttribute('content');
+                         
+          if (metaDesc && metaDesc.includes('AliExpress')) {
+             metaDesc = metaDesc.replace(/AliExpress/g, 'MAIIDULL');
+          }
+          
           setDetails({
-            description: metaDesc ? metaDesc.split('.')[0] + '.' : "Standard premium quality product from AliExpress. High durability and original design verified. Check the 'Shop Now' link for latest pricing.",
+            description: metaDesc ? metaDesc : "Standard premium quality product. High durability and original design verified. Check the 'Shop Now' link for latest pricing.",
             loading: false
           });
         })
         .catch(() => {
           setDetails({
-            description: "A top-rated item hand-picked for our collection. Visit AliExpress for full specifications and customer reviews.",
+            description: "A top-rated item hand-picked for our collection. Visit the store for full specifications and customer reviews.",
             loading: false
           });
         });
