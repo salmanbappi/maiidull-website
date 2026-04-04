@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import productsData from '../data/products.json';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
-const ProductDetails = () => {
+const ProductDetails = ({ products }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [details, setDetails] = useState({ description: '', loading: true });
   
-  const product = productsData.find(p => p.id === parseInt(id));
+  // Find product from synced list or fetch from JSON
+  const product = products?.find(p => p.id === parseInt(id));
 
   useEffect(() => {
     if (product) {
@@ -20,71 +20,73 @@ const ProductDetails = () => {
           const metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || 
                            doc.querySelector('meta[property="og:description"]')?.getAttribute('content');
           setDetails({
-            description: metaDesc ? metaDesc.split('.')[0] + '.' : "Standard AliExpress premium quality product. High durability, original design, and daily discount. Click 'Shop Now' to view current pricing and reviews.",
+            description: metaDesc ? metaDesc.split('.')[0] + '.' : "Premium product sourced for you. High-quality construction and modern design verified by AliExpress. Check the 'Shop Now' link for current stock and size guides.",
             loading: false
           });
         })
         .catch(() => {
           setDetails({
-            description: "High-quality product curated for you. Visit AliExpress for specifications, reviews, and current deals.",
+            description: "A top-rated item hand-picked for our collection. High durability and utility. Click 'Shop Now' for full specifications, customer reviews, and shipping details.",
             loading: false
           });
         });
     }
   }, [product]);
 
-  if (!product) return <div>Product not found.</div>;
+  if (!product) return (
+    <div className="min-h-screen flex items-center justify-center bg-[var(--bg-base)] text-[var(--text-main)]">
+      <div className="text-center">
+        <h2 className="text-2xl font-black italic">Syncing Data...</h2>
+        <Link to="/" className="text-accent text-xs font-bold mt-4 block">Return Home</Link>
+      </div>
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-main)] flex flex-col items-center">
       {/* Detail Header */}
-      <div className="bg-white border-b border-gray-100 py-6 px-6 md:px-12 flex items-center justify-between sticky top-0 z-50">
-        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-900 font-bold text-sm uppercase tracking-widest hover:text-accent transition-colors">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </button>
-        <h1 className="text-xl font-black italic tracking-tighter text-gray-900 uppercase">MAIIDULL<span className="text-accent">.</span></h1>
-      </div>
+      <header className="w-full bg-[var(--bg-base)] border-b border-[var(--border-color)] py-6 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+          <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-[var(--text-main)] font-black text-[10px] uppercase tracking-widest hover:text-accent transition-colors">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+          </button>
+          <Link to="/" className="text-xl font-black italic tracking-tighter uppercase">MAIIDULL<span className="text-accent">.</span></Link>
+        </div>
+      </header>
 
-      {/* Main Container - 60/30 Separate Screen Design */}
-      <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row min-h-[calc(100vh-80px)]">
+      {/* Detail Content (60/30 Separate Screen) */}
+      <div className="max-w-[1440px] w-full flex-grow flex flex-col md:flex-row">
         
-        {/* 60% Image Section (Dynamic) */}
-        <div className="w-full md:w-3/5 bg-gray-50 flex items-center justify-center p-8 md:p-24 overflow-hidden">
+        {/* 60% Image (Dynamic) */}
+        <div className="w-full md:w-3/5 bg-[var(--bg-secondary)] flex items-center justify-center p-8 md:p-24 min-h-[50vh] md:min-h-0">
           <img 
             src={product.imageUrl} 
             alt={product.title}
             referrerPolicy="no-referrer"
-            className="w-full h-auto max-h-[80vh] object-contain shadow-2xl rounded-2xl"
+            className="w-full h-auto max-h-[80vh] object-contain shadow-2xl rounded-3xl"
+            onError={(e) => { e.target.src = 'https://via.placeholder.com/600x600?text=Product+Details'; }}
           />
         </div>
 
         {/* 30% Info Section / 10% Shop Now Section */}
-        <div className="w-full md:w-2/5 p-8 md:p-16 flex flex-col justify-between border-l border-gray-100 bg-white">
+        <div className="w-full md:w-2/5 p-8 md:p-16 flex flex-col justify-between border-l border-[var(--border-color)] bg-[var(--bg-base)]">
           <div className="space-y-8">
             <div className="flex flex-col gap-2">
-              <span className="text-[10px] font-black text-accent uppercase tracking-[0.3em]">AliExpress Partner</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-[1.1] tracking-tight">
+              <span className="text-[10px] font-black text-accent uppercase tracking-[0.4em]">Official Selection</span>
+              <h2 className="text-3xl md:text-4xl font-black leading-[1.05] tracking-tighter uppercase italic">
                 {product.title}
               </h2>
             </div>
             
-            <div className="h-px bg-gray-100 w-full" />
+            <div className="h-px bg-[var(--border-color)] w-full" />
             
             <div className="space-y-6">
-               <div className="flex items-center gap-3">
-                 <div className="w-1.5 h-10 bg-accent rounded-full" />
-                 <div className="flex flex-col">
-                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Source</span>
-                   <span className="text-sm font-black text-gray-900 uppercase italic">Direct From Warehouse</span>
-                 </div>
-               </div>
-               
-               <p className="text-gray-600 text-lg leading-relaxed font-medium">
+               <p className="text-[var(--text-main)] text-lg leading-relaxed font-bold opacity-80">
                 {details.loading ? (
-                  <span className="animate-pulse text-gray-300 italic">Syncing product data...</span>
+                  <span className="animate-pulse text-[var(--text-muted)] italic">Retrieving latest specifications...</span>
                 ) : details.description}
               </p>
             </div>
@@ -95,14 +97,14 @@ const ProductDetails = () => {
               href={product.affiliateUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full bg-accent hover:bg-blue-700 text-white text-lg font-black py-6 rounded-2xl flex items-center justify-center gap-4 transition-transform active:scale-[0.98] shadow-2xl shadow-blue-600/20"
+              className="w-full bg-accent hover:bg-accent-hover text-white text-lg font-black py-6 rounded-3xl flex items-center justify-center gap-4 transition-transform active:scale-[0.98] shadow-2xl shadow-accent/30"
             >
               Shop Now
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </a>
-            <p className="text-center text-[11px] text-gray-400 font-bold uppercase tracking-widest">Redirecting to secure merchant page</p>
+            <p className="text-center text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">Verified Secure Merchant Checkout</p>
           </div>
         </div>
       </div>
