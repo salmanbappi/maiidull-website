@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Box, 
   Container, 
@@ -17,7 +17,8 @@ import {
   ListItemText,
   Skeleton,
   Breadcrumbs,
-  Link as MuiLink
+  Link as MuiLink,
+  CircularProgress
 } from '@mui/material';
 import { 
   ArrowBack as BackIcon,
@@ -34,19 +35,23 @@ import ProductCard from './ProductCard';
 const ProductDetails = ({ products }) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [details, setDetails] = useState({ description: '', loading: true });
   const [expanded, setExpanded] = useState(false);
   
-  const product = products?.find(p => p.id === parseInt(id));
+  const product = useMemo(() => products?.find(p => String(p.id) === String(id)), [products, id]);
 
   // Find 3 related products (same category or random)
-  const relatedProducts = React.useMemo(() => {
+  const relatedProducts = useMemo(() => {
     if (!products || !product) return [];
-    let related = products.filter(p => p.id !== product.id && p.category === product.category);
+    
+    // 1. Get products in the same category (excluding current)
+    let related = products.filter(p => String(p.id) !== String(product.id) && p.category === product.category);
+    
+    // 2. If not enough, add others
     if (related.length < 3) {
-      const others = products.filter(p => p.id !== product.id && p.category !== product.category);
+      const others = products.filter(p => String(p.id) !== String(product.id) && p.category !== product.category);
       related = [...related, ...others];
     }
+    
     return related.slice(0, 3);
   }, [products, product]);
 
@@ -54,7 +59,12 @@ const ProductDetails = ({ products }) => {
     window.scrollTo(0, 0);
   }, [product]);
 
-  if (!product) return null;
+  if (!product) return (
+    <Container sx={{ py: 20, textAlign: 'center' }}>
+      <CircularProgress size={60} />
+      <Typography variant="h6" sx={{ mt: 2 }}>Syncing Database...</Typography>
+    </Container>
+  );
 
   // Use admin-provided description or fallback
   const displayDescription = product.description || `Discover the ${product.title}. A premium selection verified for quality, durability, and style. Ideal for your daily needs and backed by secure global shipping. Visit the store to view full specifications, customer reviews, and available variants.`;
