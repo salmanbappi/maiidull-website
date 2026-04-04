@@ -62,18 +62,22 @@ const ProductDetails = ({ products }) => {
           let metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute('content') || 
                          doc.querySelector('meta[property="og:description"]')?.getAttribute('content');
                          
+          if (metaDesc && (metaDesc.includes('Smarter Shopping') || metaDesc.length < 15)) {
+             metaDesc = null; // Force fallback
+          }
+
           if (metaDesc && metaDesc.includes('AliExpress')) {
-             metaDesc = metaDesc.replace(/AliExpress/g, 'MAIIDULL');
+             metaDesc = metaDesc.replace(/AliExpress/ig, 'MAIIDULL');
           }
           
           setDetails({
-            description: metaDesc ? metaDesc : "Standard premium quality product. High durability and original design verified. Check the 'Shop Now' link for latest pricing.",
+            description: metaDesc ? metaDesc : `Discover the ${product.title}. A premium selection verified for quality, durability, and style. Ideal for your daily needs and backed by secure global shipping. Visit the store to view full specifications, customer reviews, and available variants.`,
             loading: false
           });
         })
         .catch(() => {
           setDetails({
-            description: "A top-rated item hand-picked for our collection. Visit the store for full specifications and customer reviews.",
+            description: `Discover the ${product.title}. A premium selection verified for quality, durability, and style. Ideal for your daily needs and backed by secure global shipping. Visit the store to view full specifications, customer reviews, and available variants.`,
             loading: false
           });
         });

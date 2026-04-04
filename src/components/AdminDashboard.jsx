@@ -80,8 +80,12 @@ const AdminDashboard = () => {
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlText, 'text/html');
       
-      const title = doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || 
+      let title = doc.querySelector('meta[property="og:title"]')?.getAttribute('content') || 
                     doc.querySelector('title')?.innerText || '';
+                    
+      if (title && (title.includes('Smarter Shopping') || title.includes('AliExpress') || title.length < 10)) {
+        title = ''; // Reject generic fallback title
+      }
                     
       const image = doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
 
