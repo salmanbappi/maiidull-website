@@ -31,12 +31,12 @@ products.forEach(product => {
   let html = baseHtml;
   
   // Replace title
-  html = html.replace(/<title>.*?<\/title>/g, `<title>${product.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')} - MAIIDULL</title>`);
+  html = html.replace(/<title>.*?<\/title>/g, `<title>${product.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')} - MAZIIDULL</title>`);
   
   // Replace base open graph tags with product-specific ones
   const ogTags = `
     <meta property="og:title" content="${product.title.replace(/"/g, '&quot;')}" />
-    <meta property="og:description" content="Shop this verified deal on MAIIDULL. High-quality product shipped via AliExpress." />
+    <meta property="og:description" content="Shop this verified deal on MAZIIDULL. High-quality product shipped via AliExpress." />
     <meta property="og:image" content="${product.imageUrl}" />
     <meta property="og:url" content="https://salmanbappi.github.io/maiidull-website/product/${product.id}" />
     <meta property="og:type" content="product" />

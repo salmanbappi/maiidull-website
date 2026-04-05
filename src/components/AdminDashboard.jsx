@@ -30,7 +30,7 @@ const getAuthToken = () => atob('Z2hwX2plOFluamt' + 'KcEpLYXN5cGMwbFNX' + 'VGNWU
 
 const AdminDashboard = () => {
   const [password, setPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(!!sessionStorage.getItem('maiidull_auth'));
+  const [isAuthenticated, setIsAuthenticated] = useState(!!sessionStorage.getItem('maziidull_auth'));
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState({ type: '', message: '' });
   
@@ -158,7 +158,7 @@ const AdminDashboard = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (password === 'mubin123') {
-      sessionStorage.setItem('maiidull_auth', 'true');
+      sessionStorage.setItem('maziidull_auth', 'true');
       setIsAuthenticated(true);
     } else {
       setStatus({ type: 'error', message: 'Incorrect password.' });
@@ -166,7 +166,7 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('maiidull_auth');
+    sessionStorage.removeItem('maziidull_auth');
     setPassword('');
     setIsAuthenticated(false);
   };
@@ -247,7 +247,7 @@ const AdminDashboard = () => {
     return (
       <Container maxWidth="sm" sx={{ py: 12 }}>
         <Paper elevation={0} sx={{ p: 6, borderRadius: 4, border: '1px solid', borderColor: 'divider', textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 900, mb: 2, fontStyle: 'italic' }}>MAIIDULL <Typography component="span" color="primary" variant="inherit">ADMIN</Typography></Typography>
+          <Typography variant="h4" sx={{ fontWeight: 900, mb: 2, fontStyle: 'italic' }}>MAZIIDULL <Typography component="span" color="primary" variant="inherit">ADMIN</Typography></Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
             Enter your admin password to manage products.
           </Typography>

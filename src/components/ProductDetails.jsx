@@ -78,8 +78,8 @@ const ProductDetails = ({ products }) => {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
       <Helmet>
-        <title>{product.title} - MAIIDULL</title>
-        <meta name="description" content="Shop this verified deal on MAIIDULL. High-quality product shipped via AliExpress." />
+        <title>{product.title} - MAZIIDULL</title>
+        <meta name="description" content="Shop this verified deal on MAZIIDULL. High-quality product shipped via AliExpress." />
       </Helmet>
       <Container maxWidth="xl">
         {/* Modern Minimal Back Link */}

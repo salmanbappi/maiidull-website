@@ -1,6 +1,6 @@
-# MAIIDULL Affiliate Marketing Website
+# MAZIIDULL Affiliate Marketing Website
 
-A Facebook Reels-style product affiliate website for MAIIDULL.
+A Facebook Reels-style product affiliate website for MAZIIDULL.
 
 ## 🔗 Live Site
 **Check it out here:** [https://salmanbappi.github.io/maiidull-website/](https://salmanbappi.github.io/maiidull-website/)

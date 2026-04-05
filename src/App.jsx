@@ -98,7 +98,7 @@ function App() {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <BagIcon sx={{ fontSize: 28 }} />
                     <Typography variant="h5" sx={{ fontWeight: 900, letterSpacing: '-0.05em', textTransform: 'uppercase' }}>
-                      MAIIDULL<Typography component="span" sx={{ color: 'accent.main' }} variant="inherit">.</Typography>
+                      MAZIIDULL<Typography component="span" sx={{ color: 'accent.main' }} variant="inherit">.</Typography>
                     </Typography>
                   </Box>
                 </Link>
@@ -137,7 +137,7 @@ function App() {
 
           <Box component="footer" sx={{ py: 10, mt: 'auto', borderTop: '1px solid', borderColor: 'divider', textAlign: 'center', position: 'relative' }}>
             <Typography variant="h6" sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
-              MAIIDULL<Typography component="span" sx={{ color: 'accent.main' }} variant="inherit">.</Typography>
+              MAZIIDULL<Typography component="span" sx={{ color: 'accent.main' }} variant="inherit">.</Typography>
             </Typography>
             <Typography variant="caption" sx={{ display: 'block', mt: 2, fontWeight: 900, color: 'text.disabled', letterSpacing: '0.2em' }}>
               &copy; {new Date().getFullYear()} AFFILIATE HUB
