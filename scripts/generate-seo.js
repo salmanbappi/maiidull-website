@@ -21,6 +21,8 @@ if (!fs.existsSync(productDir)) {
   fs.mkdirSync(productDir, { recursive: true });
 }
 
+console.log(`Generating SEO pages for ${products.length} products...`);
+
 // Generate an index.html for each product
 products.forEach(product => {
   const dir = path.resolve(productDir, String(product.id));
@@ -30,40 +32,43 @@ products.forEach(product => {
 
   let html = baseHtml;
   
-  // Replace title
-  html = html.replace(/<title>.*?<\/title>/g, `<title>${product.title.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')} - MAZIIDULL</title>`);
+  // Clean product title for HTML safety
+  const cleanTitle = product.title.replace(/"/g, '&quot;').replace(/&/g, '&amp;');
   
-  // Replace base open graph tags with product-specific ones
+  // Replace title
+  html = html.replace(/<title>.*?<\/title>/g, `<title>${cleanTitle} - MAZIIDULL</title>`);
+  
+  // Better Open Graph tags for Facebook/WhatsApp
   const ogTags = `
-    <meta property="og:title" content="${product.title.replace(/"/g, '&quot;')}" />
-    <meta property="og:description" content="Shop this verified deal on MAZIIDULL. High-quality product shipped via AliExpress." />
+    <meta property="og:title" content="${cleanTitle}" />
+    <meta property="og:description" content="Check out this verified deal on MAZIIDULL. Click to view product details and pricing." />
     <meta property="og:image" content="${product.imageUrl}" />
     <meta property="og:url" content="https://salmanbappi.github.io/maiidull-website/product/${product.id}" />
     <meta property="og:type" content="product" />
+    <meta property="og:site_name" content="MAZIIDULL" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="${product.title.replace(/"/g, '&quot;')}" />
+    <meta name="twitter:title" content="${cleanTitle}" />
     <meta name="twitter:image" content="${product.imageUrl}" />
+    <meta http-equiv="refresh" content="0;URL='/maiidull-website/#/product/${product.id}'" />
   `;
   
-  // Regex to remove the default og tags from index.html
-  html = html.replace(/<meta property="og:title" [^>]+>/g, '');
-  html = html.replace(/<meta property="og:description" [^>]+>/g, '');
-  html = html.replace(/<meta property="og:type" [^>]+>/g, '');
-  html = html.replace(/<meta property="og:url" [^>]+>/g, '');
-  html = html.replace(/<meta property="og:image" [^>]+>/g, '');
+  // Remove any existing OG tags from the base template to avoid duplicates
+  html = html.replace(/<meta property="og:[^>]+>/g, '');
+  html = html.replace(/<meta name="twitter:[^>]+>/g, '');
   
-  html = html.replace('</head>', `
+  // Inject new tags and a fast JS redirect backup
+  const headInjection = `
     ${ogTags}
-    <script>
-      // Redirect humans to the React HashRouter URL, but let crawlers see the meta tags
-      window.location.href = '/maiidull-website/#/product/${product.id}';
+    <script type="text/javascript">
+      window.location.href = "/maiidull-website/#/product/${product.id}";
     </script>
-  </head>`);
+  `;
+  
+  html = html.replace('</head>', `${headInjection}\n  </head>`);
   
   fs.writeFileSync(path.resolve(dir, 'index.html'), html);
-  console.log(`Generated SEO page for product ${product.id}`);
 });
 
-// Also create a 404.html from index.html for GitHub Pages routing fallback
+// Create a 404.html from index.html for GitHub Pages routing fallback
 fs.copyFileSync(indexPath, path.resolve(distPath, '404.html'));
-console.log('Generated 404.html for GitHub Pages routing fallback');
+console.log('SEO Generation complete.');
