@@ -35,7 +35,10 @@ function App() {
     palette: {
       mode,
       primary: { main: '#111827' },
-      accent: { main: '#2563eb' },
+      accent: { 
+        main: '#facc15',
+        contrastText: '#111827'
+      },
       background: {
         default: mode === 'light' ? '#fcfcfc' : '#0a0a0a',
         paper: mode === 'light' ? '#ffffff' : '#141414',
@@ -95,7 +98,7 @@ function App() {
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <BagIcon sx={{ fontSize: 28 }} />
                     <Typography variant="h5" sx={{ fontWeight: 900, letterSpacing: '-0.05em', textTransform: 'uppercase' }}>
-                      MAIIDULL<Typography component="span" color="primary" variant="inherit">.</Typography>
+                      MAIIDULL<Typography component="span" sx={{ color: 'accent.main' }} variant="inherit">.</Typography>
                     </Typography>
                   </Box>
                 </Link>
@@ -117,7 +120,7 @@ function App() {
                   <Box sx={{ mb: 8, textAlign: 'center' }}>
                     <Typography variant="h2" sx={{ fontSize: { xs: '2.5rem', md: '5rem' }, lineHeight: 0.9, letterSpacing: '-0.06em' }}>
                       CURATED<br />
-                      <Typography component="span" variant="inherit" sx={{ color: 'text.disabled' }}>DAILY</Typography> SELECTION
+                      DAILY <Typography component="span" variant="inherit" sx={{ color: 'accent.main' }}>SELECTION</Typography>
                     </Typography>
                   </Box>
                   {loading ? (
@@ -134,7 +137,7 @@ function App() {
 
           <Box component="footer" sx={{ py: 10, mt: 'auto', borderTop: '1px solid', borderColor: 'divider', textAlign: 'center', position: 'relative' }}>
             <Typography variant="h6" sx={{ fontWeight: 900, textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
-              MAIIDULL<Typography component="span" color="primary" variant="inherit">.</Typography>
+              MAIIDULL<Typography component="span" sx={{ color: 'accent.main' }} variant="inherit">.</Typography>
             </Typography>
             <Typography variant="caption" sx={{ display: 'block', mt: 2, fontWeight: 900, color: 'text.disabled', letterSpacing: '0.2em' }}>
               &copy; {new Date().getFullYear()} AFFILIATE HUB

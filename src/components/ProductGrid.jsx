@@ -65,19 +65,22 @@ const ProductGrid = ({ products }) => {
             key={category}
             label={category}
             onClick={() => handleCategoryChange(category)}
-            color={selectedCategory === category ? 'primary' : 'default'}
-            variant={selectedCategory === category ? 'filled' : 'outlined'}
             sx={{ 
-              fontWeight: 800, 
-              borderRadius: 2, 
+              fontWeight: 900, 
+              borderRadius: 1, 
               px: 1,
-              py: 2.5,
+              py: 2.2,
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
               transition: 'all 0.2s',
               cursor: 'pointer',
+              bgcolor: selectedCategory === category ? 'accent.main' : 'background.paper',
+              color: selectedCategory === category ? 'accent.contrastText' : 'text.secondary',
+              border: '1px solid',
+              borderColor: selectedCategory === category ? 'accent.main' : 'divider',
               '&:hover': {
-                bgcolor: selectedCategory === category ? 'primary.dark' : 'action.hover'
+                bgcolor: selectedCategory === category ? 'accent.hover' : 'action.hover',
+                borderColor: selectedCategory === category ? 'accent.hover' : 'text.disabled'
               }
             }}
           />
@@ -119,20 +122,22 @@ const ProductGrid = ({ products }) => {
       {hasMore && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
           <Button 
-            variant="outlined" 
+            variant="contained" 
+            disableElevation
             size="large"
             onClick={handleLoadMore}
             endIcon={<ArrowDownIcon />}
             sx={{ 
-              fontWeight: 800, 
-              borderWidth: 2, 
+              fontWeight: 900, 
               px: 6,
-              py: 1.5,
-              borderRadius: 8,
-              '&:hover': { borderWidth: 2 }
+              py: 2,
+              borderRadius: 2,
+              bgcolor: 'accent.main',
+              color: 'accent.contrastText',
+              '&:hover': { bgcolor: 'accent.hover' }
             }}
           >
-            Load More Reels
+            Explore More Reels
           </Button>
         </Box>
       )}

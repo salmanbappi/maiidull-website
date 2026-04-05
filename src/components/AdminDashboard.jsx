@@ -387,7 +387,7 @@ const AdminDashboard = () => {
                     variant="contained" 
                     size="large" 
                     disabled={loading}
-                    sx={{ py: 2.5, fontSize: '1.1rem', fontWeight: 900, bgcolor: 'accent.main', '&:hover': { bgcolor: 'accent.hover' } }}
+                    sx={{ py: 2.5, fontSize: '1.1rem', fontWeight: 900, bgcolor: 'accent.main', color: 'accent.contrastText', '&:hover': { bgcolor: 'accent.hover' } }}
                   >
                     {loading ? <CircularProgress size={28} color="inherit" /> : 'Publish to Website'}
                   </Button>

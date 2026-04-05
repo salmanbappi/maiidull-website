@@ -138,7 +138,7 @@ const ProductDetails = ({ products }) => {
                   size="small"
                   sx={{ 
                     bgcolor: 'accent.main', 
-                    color: 'white', 
+                    color: 'accent.contrastText', 
                     fontWeight: 900, 
                     borderRadius: 1, 
                     fontSize: '0.65rem',
@@ -229,10 +229,9 @@ const ProductDetails = ({ products }) => {
               </Box>
 
               <Box sx={{ mt: 'auto', pt: 6 }}>
-                <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, bgcolor: 'error.main', color: 'error.contrastText', py: 1, borderRadius: 1 }}>
-                  <span role="img" aria-label="fire">🔥</span>
-                  <Typography variant="caption" sx={{ fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                    High Demand: Check AliExpress for remaining stock
+                <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, bgcolor: 'accent.main', color: 'accent.contrastText', py: 1.5, borderRadius: 1, boxShadow: 1 }}>
+                  <Typography variant="caption" sx={{ fontWeight: 900, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                    🔥 LIMITED TIME DEAL: VERIFY STOCK NOW
                   </Typography>
                 </Box>
                 <Button 
@@ -247,6 +246,7 @@ const ProductDetails = ({ products }) => {
                     py: 3, 
                     fontSize: '1.25rem', 
                     bgcolor: 'accent.main',
+                    color: 'accent.contrastText',
                     '&:hover': { bgcolor: 'accent.hover' }
                   }}
                 >
@@ -264,7 +264,7 @@ const ProductDetails = ({ products }) => {
         {relatedProducts.length > 0 && (
           <Box sx={{ mt: 15, pt: 8, borderTop: '1px solid', borderColor: 'divider' }}>
             <Typography variant="h4" sx={{ fontWeight: 900, mb: 6, letterSpacing: '-0.02em', textTransform: 'uppercase', fontStyle: 'italic' }}>
-              More Like <Typography component="span" variant="inherit" color="primary">This</Typography>
+              More Like <Typography component="span" variant="inherit" sx={{ color: 'accent.main' }}>This</Typography>
             </Typography>
             {isMobile ? (
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
