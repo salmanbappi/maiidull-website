@@ -28,7 +28,8 @@ import {
   Verified as VerifiedIcon,
   LocalShipping as ShippingIcon,
   InfoOutlined as InfoIcon,
-  Launch as LaunchIcon
+  Launch as LaunchIcon,
+  ContentCopy as CopyIcon
 } from '@mui/icons-material';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
@@ -74,6 +75,12 @@ const ProductDetails = ({ products }) => {
   // Use admin-provided description or fallback
   const displayDescription = product.description || `Discover the ${product.title}. A premium selection verified for quality, durability, and style. Ideal for your daily needs and backed by secure global shipping. Visit the store to view full specifications, customer reviews, and available variants.`;
 
+
+  const handleCopyLink = () => {
+    const seoUrl = `https://salmanbappi.github.io/maiidull-website/product/${product.id}`;
+    navigator.clipboard.writeText(seoUrl);
+    alert("SEO-friendly link copied! Use this link for Facebook/Social Media to show the product image.");
+  };
 
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 4 }}>
@@ -133,19 +140,27 @@ const ProductDetails = ({ products }) => {
           <Grid item xs={12} md={5}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               <Box>
-                <Chip 
-                  label="Official Listing" 
-                  size="small"
-                  sx={{ 
-                    bgcolor: 'accent.main', 
-                    color: 'accent.contrastText', 
-                    fontWeight: 900, 
-                    borderRadius: 1, 
-                    fontSize: '0.65rem',
-                    mb: 2,
-                    letterSpacing: '0.1em'
-                  }} 
-                />
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                  <Chip 
+                    label="Official Listing" 
+                    size="small"
+                    sx={{ 
+                      bgcolor: 'accent.main', 
+                      color: 'accent.contrastText', 
+                      fontWeight: 900, 
+                      borderRadius: 1, 
+                      fontSize: '0.65rem',
+                      letterSpacing: '0.1em'
+                    }} 
+                  />
+                  <Button 
+                    startIcon={<CopyIcon sx={{ fontSize: '1rem !important' }} />}
+                    onClick={handleCopyLink}
+                    sx={{ color: 'text.secondary', fontWeight: 800, fontSize: '0.65rem' }}
+                  >
+                    Share Link
+                  </Button>
+                </Box>
                 <Typography variant="h3" sx={{ 
                   fontWeight: 900, 
                   lineHeight: 1, 

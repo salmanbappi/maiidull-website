@@ -52,7 +52,13 @@ products.forEach(product => {
   html = html.replace(/<meta property="og:url" [^>]+>/g, '');
   html = html.replace(/<meta property="og:image" [^>]+>/g, '');
   
-  html = html.replace('</head>', `${ogTags}\n  </head>`);
+  html = html.replace('</head>', `
+    ${ogTags}
+    <script>
+      // Redirect humans to the React HashRouter URL, but let crawlers see the meta tags
+      window.location.href = '/maiidull-website/#/product/${product.id}';
+    </script>
+  </head>`);
   
   fs.writeFileSync(path.resolve(dir, 'index.html'), html);
   console.log(`Generated SEO page for product ${product.id}`);
