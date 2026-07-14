@@ -10,91 +10,136 @@ const ProductCard = ({ product }) => {
       height: '100%', 
       display: 'flex', 
       flexDirection: 'column',
-      borderRadius: 2, 
+      borderRadius: 0, 
       border: '1px solid',
       borderColor: 'divider',
       bgcolor: 'background.paper',
       overflow: 'hidden',
-      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      transition: 'border-color 0.2s ease, background-color 0.2s ease',
       '&:hover': { 
-        transform: 'translateY(-4px)',
-        boxShadow: (theme) => `0 12px 24px -10px ${theme.palette.mode === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.5)'}`,
-        borderColor: 'accent.main'
+        borderColor: 'text.primary',
+        bgcolor: (theme) => theme.palette.mode === 'light' ? '#fafafa' : '#111111'
       }
     }}>
-      <CardActionArea onClick={() => navigate(`/product/${product.id}`)}>
-        <Box sx={{ position: 'relative', pt: '120%', bgcolor: 'action.hover' }}>
+      <CardActionArea 
+        onClick={() => navigate(`/product/${product.id}`)}
+        sx={{
+          borderRadius: 0,
+          '& .MuiCardActionArea-focusHighlight': {
+            backgroundColor: 'transparent'
+          }
+        }}
+      >
+        <Box sx={{ 
+          position: 'relative', 
+          pt: '100%', 
+          bgcolor: (theme) => theme.palette.mode === 'light' ? '#ffffff' : '#000000',
+          borderBottom: '1px solid',
+          borderColor: 'divider'
+        }}>
           <CardMedia
             component="img"
             image={product.imageUrl}
             alt={product.title}
-            sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', p: 1 }}
+            sx={{ 
+              position: 'absolute', 
+              top: 0, 
+              left: 0, 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'contain', 
+              p: 3,
+              filter: (theme) => theme.palette.mode === 'dark' ? 'brightness(0.9)' : 'none'
+            }}
           />
           <Box sx={{ 
             position: 'absolute', 
             top: 12, 
             left: 12, 
-            bgcolor: 'accent.main', 
-            color: 'accent.contrastText',
+            bgcolor: 'text.primary', 
+            color: 'background.paper',
             px: 1.5,
             py: 0.5,
-            borderRadius: 1,
             fontSize: '0.6rem',
-            fontWeight: 900,
+            fontWeight: 700,
             textTransform: 'uppercase',
             letterSpacing: '0.1em',
-            boxShadow: 2
+            fontFamily: '"Space Mono", monospace'
           }}>
-            Trending
+            {product.category || 'DEAL'}
           </Box>
         </Box>
       </CardActionArea>
       
-      <CardContent sx={{ p: 2, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Typography variant="body2" sx={{ 
-          fontWeight: 900, 
-          lineHeight: 1.2,
-          flexGrow: 1,
-          color: 'text.primary',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
-          letterSpacing: '-0.01em'
-        }}>
+      <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+        <Typography 
+          variant="body1" 
+          sx={{ 
+            fontWeight: 600, 
+            lineHeight: 1.3,
+            flexGrow: 1,
+            color: 'text.primary',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            letterSpacing: '-0.01em',
+            fontFamily: '"Space Grotesk", sans-serif',
+            fontSize: '1rem'
+          }}
+        >
           {product.title}
         </Typography>
         
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', mt: 'auto' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Box sx={{ width: 6, height: 6, bgcolor: 'error.main', borderRadius: '50%', animation: 'pulse 2s infinite' }} />
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 800, fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Limited Deal
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          width: '100%', 
+          mt: 'auto',
+          pt: 2,
+          borderTop: '1px dashed',
+          borderColor: 'divider'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ width: 6, height: 6, bgcolor: 'accent.main', borderRadius: '50%' }} className="pulse-dot" />
+            <Typography 
+              variant="caption" 
+              sx={{ 
+                color: 'text.secondary', 
+                fontWeight: 700, 
+                fontSize: '0.65rem', 
+                letterSpacing: '0.05em' 
+              }}
+            >
+              LIMITED DEAL
             </Typography>
           </Box>
           <Button 
-            variant="contained" 
+            variant="outlined" 
             disableElevation
             onClick={(e) => { 
               e.stopPropagation(); 
-              // Analytics Tracking Event
-              console.log('Analytics Event: Clicked Check Price', { productId: product.id, title: product.title });
               navigate(`/product/${product.id}`); 
             }}
             sx={{ 
-              bgcolor: 'accent.main', 
-              color: 'accent.contrastText',
-              '&:hover': { bgcolor: 'accent.hover' },
-              fontSize: '0.65rem',
-              fontWeight: 900,
+              borderColor: 'text.primary', 
+              color: 'text.primary',
+              '&:hover': { 
+                bgcolor: 'text.primary', 
+                color: 'background.paper',
+                borderColor: 'text.primary'
+              },
+              fontSize: '0.7rem',
+              fontWeight: 700,
               px: 2,
-              py: 1,
-              borderRadius: 1,
+              py: 0.8,
+              borderRadius: 0,
               whiteSpace: 'nowrap'
             }}
           >
-            Check Price
+            VIEW DETAIL
           </Button>
         </Box>
       </CardContent>
@@ -103,3 +148,4 @@ const ProductCard = ({ product }) => {
 };
 
 export default ProductCard;
+

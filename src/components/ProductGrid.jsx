@@ -39,14 +39,22 @@ const ProductGrid = ({ products }) => {
     return (
       <Box sx={{ 
         textAlign: 'center', 
-        py: 15, 
+        py: 10, 
         bgcolor: 'background.paper', 
-        borderRadius: 8,
-        border: '3px dashed',
+        borderRadius: 0,
+        border: '1px dashed',
         borderColor: 'divider'
       }}>
-        <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-          NO REELS SYNCED
+        <Typography 
+          variant="h6" 
+          sx={{ 
+            fontWeight: 700, 
+            textTransform: 'uppercase', 
+            letterSpacing: '0.1em',
+            fontFamily: '"Space Mono", monospace'
+          }}
+        >
+          [ NO REELS SYNCED ]
         </Typography>
       </Box>
     );
@@ -59,61 +67,65 @@ const ProductGrid = ({ products }) => {
   return (
     <Box>
       {/* Filter Bar */}
-      <Box sx={{ display: 'flex', gap: 1.5, overflowX: 'auto', pb: 2, mb: 4, '&::-webkit-scrollbar': { display: 'none' } }}>
-        {categories.map(category => (
-          <Chip 
-            key={category}
-            label={category}
-            onClick={() => handleCategoryChange(category)}
-            sx={{ 
-              fontWeight: 900, 
-              borderRadius: 1, 
-              px: 1,
-              py: 2.2,
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              transition: 'all 0.2s',
-              cursor: 'pointer',
-              bgcolor: selectedCategory === category ? 'accent.main' : 'background.paper',
-              color: selectedCategory === category ? 'accent.contrastText' : 'text.secondary',
-              border: '1px solid',
-              borderColor: selectedCategory === category ? 'accent.main' : 'divider',
-              '&:hover': {
-                bgcolor: selectedCategory === category ? 'accent.hover' : 'action.hover',
-                borderColor: selectedCategory === category ? 'accent.hover' : 'text.disabled'
-              }
-            }}
-          />
-        ))}
+      <Box sx={{ 
+        display: 'flex', 
+        gap: 1.5, 
+        overflowX: 'auto', 
+        pb: 2, 
+        mb: 6, 
+        '&::-webkit-scrollbar': { display: 'none' } 
+      }}>
+        {categories.map(category => {
+          const isSelected = selectedCategory === category;
+          return (
+            <Chip 
+              key={category}
+              label={category}
+              onClick={() => handleCategoryChange(category)}
+              sx={{ 
+                fontWeight: 700, 
+                borderRadius: 0, 
+                px: 2,
+                py: 2.2,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                transition: 'all 0.15s ease',
+                cursor: 'pointer',
+                bgcolor: isSelected ? 'text.primary' : 'transparent',
+                color: isSelected ? 'background.paper' : 'text.secondary',
+                border: '1px solid',
+                borderColor: isSelected ? 'text.primary' : 'divider',
+                '&:hover': {
+                  bgcolor: isSelected ? 'text.primary' : 'action.hover',
+                  borderColor: 'text.primary',
+                  color: isSelected ? 'background.paper' : 'text.primary'
+                }
+              }}
+            />
+          );
+        })}
       </Box>
 
-      {/* Grid or Mobile Swipe Feed */}
-      {isMobile ? (
-        <Box sx={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: 6 
-        }}>
-          {visibleProducts.map((product) => (
-            <Box key={product.id} sx={{ width: '100%' }}>
-              <ProductCard product={product} />
-            </Box>
-          ))}
-        </Box>
-      ) : (
-        <Grid container spacing={4}>
-          {visibleProducts.map((product) => (
-            <Grid item key={product.id} xs={12} sm={6} md={4}>
-              <ProductCard product={product} />
-            </Grid>
-          ))}
-        </Grid>
-      )}
+      {/* Grid */}
+      <Grid container spacing={4}>
+        {visibleProducts.map((product) => (
+          <Grid item key={product.id} xs={12} sm={6} md={4}>
+            <ProductCard product={product} />
+          </Grid>
+        ))}
+      </Grid>
       
       {filteredProducts.length === 0 && (
         <Box sx={{ textAlign: 'center', py: 10 }}>
-          <Typography variant="body1" color="text.secondary" sx={{ fontWeight: 700 }}>
-            No products found in this category.
+          <Typography 
+            variant="body1" 
+            sx={{ 
+              fontWeight: 500, 
+              color: 'text.secondary',
+              fontFamily: '"Space Mono", monospace' 
+            }}
+          >
+            [ NO PRODUCTS FOUND IN THIS CATEGORY ]
           </Typography>
         </Box>
       )}
@@ -122,22 +134,26 @@ const ProductGrid = ({ products }) => {
       {hasMore && (
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
           <Button 
-            variant="contained" 
+            variant="outlined" 
             disableElevation
             size="large"
             onClick={handleLoadMore}
             endIcon={<ArrowDownIcon />}
             sx={{ 
-              fontWeight: 900, 
+              fontWeight: 700, 
               px: 6,
               py: 2,
-              borderRadius: 2,
-              bgcolor: 'accent.main',
-              color: 'accent.contrastText',
-              '&:hover': { bgcolor: 'accent.hover' }
+              borderRadius: 0,
+              borderColor: 'text.primary',
+              color: 'text.primary',
+              '&:hover': { 
+                bgcolor: 'text.primary', 
+                color: 'background.paper',
+                borderColor: 'text.primary'
+              }
             }}
           >
-            Explore More Reels
+            EXPLORE MORE REELS
           </Button>
         </Box>
       )}
@@ -146,3 +162,4 @@ const ProductGrid = ({ products }) => {
 };
 
 export default ProductGrid;
+

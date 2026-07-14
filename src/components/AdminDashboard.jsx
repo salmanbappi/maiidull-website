@@ -246,25 +246,40 @@ const AdminDashboard = () => {
   if (!isAuthenticated) {
     return (
       <Container maxWidth="sm" sx={{ py: 12 }}>
-        <Paper elevation={0} sx={{ p: 6, borderRadius: 4, border: '1px solid', borderColor: 'divider', textAlign: 'center' }}>
-          <Typography variant="h4" sx={{ fontWeight: 900, mb: 2, fontStyle: 'italic' }}>MAZIIDULL <Typography component="span" color="primary" variant="inherit">ADMIN</Typography></Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-            Enter your admin password to manage products.
+        <Paper elevation={0} sx={{ p: 5, borderRadius: 0, border: '1px solid', borderColor: 'divider', textAlign: 'center', bgcolor: 'background.paper' }}>
+          <Typography variant="h5" className="font-doto" sx={{ fontWeight: 900, mb: 1, textTransform: 'uppercase' }}>
+            MAZIIDULL
           </Typography>
-          {status.message && <Alert severity={status.type} sx={{ mb: 3 }}>{status.message}</Alert>}
+          <Typography variant="caption" sx={{ display: 'block', mb: 4, color: 'text.secondary', fontWeight: 700 }}>
+            [ SYSTEM ADMIN ACCESS ]
+          </Typography>
+          {status.message && <Alert severity={status.type} sx={{ mb: 3, borderRadius: 0, border: '1px solid', borderColor: 'divider' }}>{status.message}</Alert>}
           <form onSubmit={handleLogin}>
             <TextField 
               fullWidth 
               type="password"
-              label="Password" 
+              label="ADMIN PASSWORD" 
               variant="outlined" 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              sx={{ mb: 3 }}
+              sx={{ mb: 3, '& .MuiOutlinedInput-root': { borderRadius: 0 } }}
               required
             />
-            <Button fullWidth variant="contained" type="submit" size="large" sx={{ py: 2, fontWeight: 900 }}>
-              Access Dashboard
+            <Button 
+              fullWidth 
+              variant="contained" 
+              type="submit" 
+              size="large" 
+              sx={{ 
+                py: 2, 
+                fontWeight: 700, 
+                borderRadius: 0,
+                bgcolor: 'text.primary',
+                color: 'background.paper',
+                '&:hover': { bgcolor: 'accent.main', color: '#ffffff' }
+              }}
+            >
+              ACCESS DASHBOARD
             </Button>
           </form>
         </Paper>
@@ -273,18 +288,36 @@ const AdminDashboard = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 6 }}>
-        <Typography variant="h3" sx={{ fontWeight: 900, letterSpacing: '-0.05em' }}>
-          ADMIN <Typography component="span" color="primary" variant="inherit">DASHBOARD</Typography>
-        </Typography>
-        <Button variant="outlined" color="error" size="small" onClick={handleLogout} sx={{ fontWeight: 800 }}>
-          Logout
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 6, borderBottom: '1px solid', borderColor: 'divider', pb: 3 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 700, letterSpacing: '-0.02em' }}>
+            CONTROL UNIT
+          </Typography>
+          <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+            [ CONSOLE.ADMIN.V3 ]
+          </Typography>
+        </Box>
+        <Button 
+          variant="outlined" 
+          color="error" 
+          size="small" 
+          onClick={handleLogout} 
+          sx={{ 
+            fontWeight: 700, 
+            borderRadius: 0,
+            borderColor: 'error.main',
+            color: 'error.main',
+            '&:hover': { bgcolor: 'error.main', color: '#ffffff', borderColor: 'error.main' }
+          }}
+        >
+          LOGOUT
         </Button>
       </Box>
 
+
       {status.message && (
-        <Alert severity={status.type} sx={{ mb: 4, borderRadius: 2 }}>
+        <Alert severity={status.type} sx={{ mb: 4, borderRadius: 0, border: '1px solid', borderColor: 'divider' }}>
           {status.message}
         </Alert>
       )}
@@ -292,26 +325,35 @@ const AdminDashboard = () => {
       <Grid container spacing={6}>
         {/* ADD NEW PRODUCT SECTION */}
         <Grid item xs={12} md={7}>
-          <Typography variant="h5" sx={{ fontWeight: 900, mb: 3 }}>Add New Reel</Typography>
-          <Paper elevation={0} sx={{ p: { xs: 4, md: 5 }, borderRadius: 4, border: '1px solid', borderColor: 'divider' }}>
+          <Typography variant="h5" sx={{ fontWeight: 700, mb: 3 }}>ADD NEW PRODUCT</Typography>
+          <Paper elevation={0} sx={{ p: { xs: 4, md: 5 }, borderRadius: 0, border: '1px solid', borderColor: 'divider', bgcolor: 'background.paper' }}>
             <form onSubmit={handleSubmit}>
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
                     <TextField 
                       fullWidth 
-                      label="AliExpress Affiliate Link (Optional)" 
+                      label="AliExpress Affiliate Link" 
                       placeholder="https://s.click.aliexpress.com/e/..."
                       value={productData.affiliateUrl}
                       onChange={(e) => setProductData({...productData, affiliateUrl: e.target.value})}
+                      sx={{ '& .MuiOutlinedInput-root': { borderRadius: 0 } }}
                     />
                     <Button 
                       variant="outlined" 
                       onClick={fetchMetadata}
                       disabled={fetchingMeta || !productData.affiliateUrl}
-                      sx={{ height: 56, whiteSpace: 'nowrap', fontWeight: 800 }}
+                      sx={{ 
+                        height: 56, 
+                        whiteSpace: 'nowrap', 
+                        fontWeight: 700, 
+                        borderRadius: 0, 
+                        borderColor: 'text.primary',
+                        color: 'text.primary',
+                        '&:hover': { bgcolor: 'text.primary', color: 'background.paper', borderColor: 'text.primary' }
+                      }}
                     >
-                      {fetchingMeta ? <CircularProgress size={24} /> : 'Auto Fetch'}
+                      {fetchingMeta ? <CircularProgress size={24} color="inherit" /> : 'AUTO FETCH'}
                     </Button>
                   </Box>
                 </Grid>
@@ -323,6 +365,7 @@ const AdminDashboard = () => {
                     value={productData.title}
                     onChange={(e) => setProductData({...productData, title: e.target.value})}
                     required
+                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 0 } }}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -331,30 +374,40 @@ const AdminDashboard = () => {
                     multiline
                     rows={4}
                     label="Product Description / Specifications" 
-                    placeholder="e.g. Size 5-12 years. Material: 100% Cotton. Breathable streetwear style..."
+                    placeholder="e.g. Size 5-12 years. Material: 100% Cotton..."
                     value={productData.description}
                     onChange={(e) => setProductData({...productData, description: e.target.value})}
                     required
+                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 0 } }}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
                     <TextField 
                       fullWidth 
-                      label="Image URL (AliExpress or Uploaded)" 
+                      label="Image URL" 
                       placeholder="https://..."
                       value={productData.imageUrl}
                       onChange={(e) => setProductData({...productData, imageUrl: e.target.value})}
                       required
+                      sx={{ '& .MuiOutlinedInput-root': { borderRadius: 0 } }}
                     />
                     <Button
                       variant="outlined"
                       component="label"
                       disabled={loading}
-                      sx={{ height: 56, whiteSpace: 'nowrap', fontWeight: 800 }}
+                      sx={{ 
+                        height: 56, 
+                        whiteSpace: 'nowrap', 
+                        fontWeight: 700, 
+                        borderRadius: 0,
+                        borderColor: 'text.primary',
+                        color: 'text.primary',
+                        '&:hover': { bgcolor: 'text.primary', color: 'background.paper', borderColor: 'text.primary' }
+                      }}
                       startIcon={<UploadIcon />}
                     >
-                      Local
+                      LOCAL
                       <input
                         type="file"
                         hidden
@@ -372,9 +425,10 @@ const AdminDashboard = () => {
                     value={productData.category}
                     onChange={(e) => setProductData({...productData, category: e.target.value})}
                     required
+                    sx={{ '& .MuiOutlinedInput-root': { borderRadius: 0 } }}
                   >
                     {CATEGORIES.map((option) => (
-                      <MenuItem key={option} value={option}>
+                      <MenuItem key={option} value={option} sx={{ borderRadius: 0 }}>
                         {option}
                       </MenuItem>
                     ))}
@@ -387,9 +441,23 @@ const AdminDashboard = () => {
                     variant="contained" 
                     size="large" 
                     disabled={loading}
-                    sx={{ py: 2.5, fontSize: '1.1rem', fontWeight: 900, bgcolor: 'accent.main', color: 'accent.contrastText', '&:hover': { bgcolor: 'accent.hover' } }}
+                    sx={{ 
+                      py: 2, 
+                      fontSize: '1rem', 
+                      fontWeight: 700, 
+                      borderRadius: 0,
+                      bgcolor: 'text.primary', 
+                      color: 'background.paper', 
+                      border: '1px solid',
+                      borderColor: 'text.primary',
+                      '&:hover': { 
+                        bgcolor: 'accent.main', 
+                        color: '#ffffff',
+                        borderColor: 'accent.main'
+                      } 
+                    }}
                   >
-                    {loading ? <CircularProgress size={28} color="inherit" /> : 'Publish to Website'}
+                    {loading ? <CircularProgress size={24} color="inherit" /> : 'PUBLISH TO WEBSITE'}
                   </Button>
                 </Grid>
               </Grid>
@@ -400,41 +468,51 @@ const AdminDashboard = () => {
         {/* MANAGE PRODUCTS SECTION */}
         <Grid item xs={12} md={5}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-            <Typography variant="h5" sx={{ fontWeight: 900 }}>Manage Reels</Typography>
-            <IconButton onClick={fetchExistingProducts} disabled={loadingProducts}>
+            <Typography variant="h5" sx={{ fontWeight: 700 }}>MANAGE PRODUCTS</Typography>
+            <IconButton onClick={fetchExistingProducts} disabled={loadingProducts} color="inherit">
               <RefreshIcon />
             </IconButton>
           </Box>
-          <Paper elevation={0} sx={{ borderRadius: 4, border: '1px solid', borderColor: 'divider', overflow: 'hidden' }}>
-            <List sx={{ width: '100%', bgcolor: 'background.paper', maxHeight: '550px', overflow: 'auto' }}>
+          <Paper elevation={0} sx={{ borderRadius: 0, border: '1px solid', borderColor: 'divider', overflow: 'hidden', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '100%', p: 0, maxHeight: '550px', overflow: 'auto' }}>
               {loadingProducts ? (
-                <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}><CircularProgress /></Box>
+                <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}><CircularProgress color="inherit" /></Box>
               ) : existingProducts.length === 0 ? (
                 <Box sx={{ p: 4, textAlign: 'center' }}>
-                  <Typography variant="body2" color="text.secondary">No products found.</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontFamily: '"Space Mono", monospace' }}>
+                    [ NO PRODUCTS FOUND ]
+                  </Typography>
                 </Box>
               ) : (
                 existingProducts.map((prod, index) => (
                   <React.Fragment key={prod.id}>
                     <ListItem 
                       alignItems="flex-start"
+                      sx={{ py: 2 }}
                       secondaryAction={
-                        <IconButton edge="end" aria-label="delete" onClick={() => handleDelete(prod.id)} color="error" disabled={loading}>
+                        <IconButton 
+                          edge="end" 
+                          aria-label="delete" 
+                          onClick={() => handleDelete(prod.id)} 
+                          color="error" 
+                          disabled={loading}
+                          sx={{ borderRadius: 0 }}
+                        >
                           <DeleteIcon />
                         </IconButton>
                       }
                     >
                       <ListItemAvatar>
-                        <Avatar variant="rounded" src={prod.imageUrl} alt={prod.title} />
+                        <Avatar variant="square" src={prod.imageUrl} alt={prod.title} sx={{ width: 48, height: 48, border: '1px solid', borderColor: 'divider' }} />
                       </ListItemAvatar>
                       <ListItemText
                         primary={prod.title}
-                        primaryTypographyProps={{ variant: 'body2', fontWeight: 700, noWrap: true }}
+                        primaryTypographyProps={{ variant: 'body2', fontWeight: 600, noWrap: true, sx: { fontFamily: '"Space Grotesk", sans-serif' } }}
                         secondary={prod.category}
-                        secondaryTypographyProps={{ variant: 'caption', fontWeight: 800, color: 'text.disabled', textTransform: 'uppercase' }}
+                        secondaryTypographyProps={{ variant: 'caption', fontWeight: 700, color: 'text.secondary', sx: { fontFamily: '"Space Mono", monospace', mt: 0.5 } }}
                       />
                     </ListItem>
-                    {index < existingProducts.length - 1 && <Divider component="li" />}
+                    {index < existingProducts.length - 1 && <Divider component="li" sx={{ borderColor: 'divider' }} />}
                   </React.Fragment>
                 ))
               )}
@@ -447,3 +525,4 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+

@@ -1,45 +1,76 @@
 @import "tailwindcss";
 
 @theme {
-  /* Professional Color Palette */
-  --color-accent: #facc15;
-  --color-accent-hover: #eab308;
+  --color-accent: #ff2f2f;
+  --color-accent-hover: #d62424;
 }
 
 :root {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   
-  /* Light Theme Variables */
-  --bg-base: #ffffff;
-  --bg-secondary: #f9fafb;
-  --text-main: #111827;
-  --text-muted: #6b7280;
-  --border-color: #f3f4f6;
+  /* Light Theme Variables (60% background, 30% text/structure, 10% accent) */
+  --bg-base: #faf8f5;
+  --bg-secondary: #ffffff;
+  --text-main: #000000;
+  --text-muted: #666666;
+  --border-color: #e5e5e5;
+  --accent-color: #ff2f2f;
 }
 
 :root.dark {
-  /* Dark Theme Variables */
-  --bg-base: #0f172a;
-  --bg-secondary: #1e293b;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border-color: #334155;
+  /* Dark Theme Variables (60% background, 30% text/structure, 10% accent) */
+  --bg-base: #000000;
+  --bg-secondary: #0c0c0c;
+  --text-main: #ffffff;
+  --text-muted: #888888;
+  --border-color: #222222;
+  --accent-color: #ff2f2f;
 }
 
 body {
   margin: 0;
   background-color: var(--bg-base);
   color: var(--text-main);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-.theme-transition {
-  transition: all 0.3s ease;
+/* Custom CSS Scrollbar for Nothing look */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+.font-doto {
+  font-family: 'Doto', sans-serif;
+}
+
+.font-mono-nothing {
+  font-family: 'Space Mono', monospace;
+}
+
+.font-grotesk-nothing {
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 @keyframes pulse {
-  0% { transform: scale(0.95); opacity: 0.7; }
-  50% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(0.95); opacity: 0.7; }
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
 }
+
+.pulse-dot {
+  animation: pulse 2s infinite;
+}
+
